@@ -3,19 +3,20 @@
 @tailwind utilities;
 
 @layer base {
+
   /* LIGHT THEME */
   :root {
-    --color-bg: #F4F6F8;
+    --color-bg: #F8FAFC;
     --color-surface: #FFFFFF;
-    --color-border: #D8DEE5;
-    --color-text: #111827;
-    --color-text-muted: #6B7280;
-    
+    --color-border: #E2E8F0;
+    --color-text: #0F172A;
+    --color-text-muted: #64748B;
+
     --color-primary: #0E7C66;
-    --color-accent: #19A684;
-    --color-danger: #D64545;
-    --color-success: #2E9B4F;
-    --color-warning: #E0A800;
+    --color-accent: #10B981;
+    --color-danger: #EF4444;
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
   }
 
   /* DARK THEME (Boot Default) */
@@ -25,7 +26,7 @@
     --color-border: #2A3441;
     --color-text: #F9FAFB;
     --color-text-muted: #9CA3AF;
-    
+
     --color-primary: #0E7C66;
     --color-accent: #19A684;
     --color-danger: #D64545;
@@ -40,7 +41,7 @@
     --color-border: #133D32;
     --color-text: #E5F0EE;
     --color-text-muted: #8AA8A1;
-    
+
     --color-primary: #0E7C66;
     --color-accent: #19A684;
     --color-danger: #E05252;
@@ -49,21 +50,78 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary selection:text-white;
   }
 }
 
-/* Custom Scrollbar for structured enterprise feel */
+/* Global Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation-duration: 350ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in {
+  animation-name: fade-in;
+}
+
+.zoom-in-95 {
+  animation-name: zoom-in;
+}
+
+.slide-in-up {
+  animation-name: slide-in-up;
+}
+
+/* Smooth Transitions */
+.transition-smooth {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  @apply bg-border rounded;
-}
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-muted;
+  @apply bg-border rounded-full hover:bg-muted transition-colors;
 }

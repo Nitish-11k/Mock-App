@@ -22,45 +22,45 @@ const AppLayout = ({ children }) => {
 
   // Simple helper to highlight the active tab
   const getTabClass = (path) => {
-    return currentPath === path 
-      ? "bg-primary text-white px-3 py-1.5 rounded-md font-bold transition-colors"
-      : "text-muted hover:text-foreground px-3 py-1.5 rounded-md transition-colors cursor-pointer";
+    return currentPath === path
+      ? "bg-primary text-white px-4 py-1.5 rounded-lg font-bold transition-all shadow-md shadow-primary/20"
+      : "text-muted hover:text-foreground px-4 py-1.5 rounded-lg transition-all cursor-pointer hover:bg-background/50";
   };
 
   return (
     <div className="h-screen w-screen bg-background flex flex-col font-sans transition-colors duration-300 overflow-hidden text-foreground">
-      
+
       {/* Top Bar - Matched to Screenshot */}
       <header className="h-16 border-b border-border bg-surface flex items-center px-6 justify-between shrink-0 shadow-sm z-10">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-10">
           <div className="flex items-center gap-2">
             <Shield className="w-6 h-6 text-primary" />
-            <span className="font-bold text-lg tracking-wide">D-Secure Drive Eraser</span>
+            <span className="font-bold text-lg tracking-tight">D-Secure Drive Eraser</span>
           </div>
-          
+
           {/* Main Navigation */}
-          <nav className="hidden md:flex items-center gap-2 text-sm">
-          <Link to="/dashboard" className={getTabClass('/dashboard')}>Dashboard</Link>
-          <Link to="/detect" className={getTabClass('/detect')}>Drive Erase</Link>
-          <Link to="/reports" className={getTabClass('/reports')}>Reports</Link>
-          <Link to="/settings" className={getTabClass('/settings')}>Settings</Link>
-          <Link to="/about" className={getTabClass('/about')}>About</Link>
-          <Link to="/help" className={getTabClass('/help')}>Help</Link>
+          <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
+            <Link to="/dashboard" className={getTabClass('/dashboard')}>Dashboard</Link>
+            <Link to="/detect" className={getTabClass('/detect')}>Drive Erase</Link>
+            <Link to="/reports" className={getTabClass('/reports')}>Reports</Link>
+            <Link to="/settings" className={getTabClass('/settings')}>Settings</Link>
+            <Link to="/about" className={getTabClass('/about')}>About</Link>
+            <Link to="/help" className={getTabClass('/help')}>Help</Link>
           </nav>
         </div>
 
         {/* Right Status Section */}
-        <div className="flex items-center gap-5 text-sm">
-          <div className="flex items-center gap-2 bg-background border border-border px-3 py-1.5 rounded">
+        <div className="flex items-center gap-6 text-sm">
+          <div className="flex items-center gap-2 bg-background/50 border border-border px-3 py-1.5 rounded-lg">
             <Activity className="w-4 h-4 text-primary" />
-            <span className="font-medium">12 wipes remaining</span>
+            <span className="font-bold">12 wipes remaining</span>
           </div>
           <Wifi className="w-4 h-4 text-success" />
-          <div className="flex items-center gap-2 border-l border-border pl-5">
-            <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold shadow-inner">
+          <div className="flex items-center gap-3 border-l border-border pl-6">
+            <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-xs font-black shadow-lg shadow-primary/20">
               JM
             </div>
-            <span className="font-medium hidden sm:inline-block">John Mitchell</span>
+            <span className="font-bold hidden sm:inline-block">John Mitchell</span>
           </div>
         </div>
       </header>
@@ -68,7 +68,7 @@ const AppLayout = ({ children }) => {
       {/* Main Content Area - Now Full Screen & Scrollable */}
       <main className="flex-1 overflow-y-auto bg-background p-6 md:p-8">
         <div className="max-w-[1400px] mx-auto min-h-full flex flex-col">
-           {children}
+          {children}
         </div>
       </main>
 
@@ -76,8 +76,8 @@ const AppLayout = ({ children }) => {
       <footer className="h-10 border-t border-border bg-surface flex items-center px-6 text-[12px] text-muted justify-between shrink-0 font-mono">
         <div className="flex items-center gap-6">
           <span className="bg-border/50 text-foreground px-2 py-1 rounded font-bold">System Ready</span>
-          <span className="flex items-center gap-2"><Monitor size={14}/> Intel Core i7-12700K • 32GB RAM</span>
-          <span className="flex items-center gap-2"><SettingsIcon size={14}/> BIOS: UEFI</span>
+          <span className="flex items-center gap-2"><Monitor size={14} /> Intel Core i7-12700K • 32GB RAM</span>
+          <span className="flex items-center gap-2"><SettingsIcon size={14} /> BIOS: UEFI</span>
         </div>
         <div className="opacity-70">
           v2.5.0 Build 20260214
@@ -102,7 +102,7 @@ function App() {
             <Route path="/confirm" element={<DestructiveConfirmation />} />
             <Route path="/progress" element={<WipeProgress />} />
             <Route path="/complete" element={<Completion />} />
-            <Route path="/report" element={<ReportGeneration />} />
+            <Route path="/reports" element={<ReportGeneration />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/about" element={<About />} />
             <Route path="/help" element={<Help />} />
