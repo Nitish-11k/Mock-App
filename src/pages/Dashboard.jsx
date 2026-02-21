@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Shield, Calendar, Clock, ArrowRight, FileCheck, FileText } from "lucide-react";
+import { Shield, Calendar, Clock, ArrowRight, FileText } from "lucide-react";
 import { Button } from "../components/ui/Button";
 
 const StatCard = ({ label, value, icon: Icon, valueColor = "text-foreground" }) => (
   <div className="bg-[#1C2530]/50 border border-white/5 p-5 rounded-lg flex flex-col justify-center transition-all hover:border-primary/50">
-    <div className="flex items-center gap-2 text-xs text-muted mb-2">
+    <div className="flex items-center gap-2 text-xs text-muted mb-2 uppercase tracking-wider font-bold">
       {Icon && <Icon size={14} />}
       <span>{label}</span>
     </div>
@@ -36,7 +36,7 @@ const WipedDriveItem = ({ model, serial, method, date }) => (
         <p className="text-sm font-bold text-foreground">{method}</p>
         <p className="text-xs text-muted font-mono mt-0.5">{date}</p>
       </div>
-      <span className="text-[10px] text-primary border border-primary/40 px-3 py-1 rounded font-bold uppercase tracking-widest">
+      <span className="text-[10px] text-primary border border-primary/40 px-3 py-1 rounded font-bold uppercase tracking-widest bg-transparent">
         COMPLETED
       </span>
     </div>
@@ -75,16 +75,16 @@ export default function Dashboard() {
           <h2 className="font-bold text-sm text-foreground uppercase tracking-wider">Compliance Standards</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <ComplianceCard title="NIST SP 800-88 Rev1" subtitle="Guidelines for Media Sanitization" />
-          <ComplianceCard title="DoD 5220.22-M" subtitle="Department of Defense Clearing Standard" />
-          <ComplianceCard title="GDPR Alignment" subtitle="EU General Data Protection Regulation" />
-          <ComplianceCard title="ISO 27001 Alignment" subtitle="Information Security Management" />
+          <ComplianceCard title="NIST SP 800-88" subtitle="Media Sanitization" />
+          <ComplianceCard title="DoD 5220.22-M" subtitle="Standard Clearing" />
+          <ComplianceCard title="GDPR Alignment" subtitle="Data Protection" />
+          <ComplianceCard title="ISO 27001" subtitle="Security Management" />
         </div>
       </section>
 
       <section>
         <div className="flex items-center gap-2 mb-4">
-          <FileCheck size={18} className="text-primary" />
+          <FileText size={18} className="text-primary" />
           <h2 className="font-bold text-sm text-foreground uppercase tracking-wider">Recently Wiped Drives</h2>
         </div>
         <div className="flex flex-col gap-3">

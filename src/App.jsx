@@ -13,6 +13,8 @@ import WipeProgress from './pages/WipeProgress';
 import Completion from './pages/Completion';
 import ReportGeneration from './pages/ReportGeneration';
 import Settings from './pages/Settings';
+import About from './pages/About';
+import Help from './pages/Help';
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
@@ -42,8 +44,8 @@ const AppLayout = ({ children }) => {
           <Link to="/detect" className={getTabClass('/detect')}>Drive Erase</Link>
           <Link to="/reports" className={getTabClass('/reports')}>Reports</Link>
           <Link to="/settings" className={getTabClass('/settings')}>Settings</Link>
-          <span className={getTabClass('/about')}>About</span>
-          <span className={getTabClass('/help')}>Help</span>
+          <Link to="/about" className={getTabClass('/about')}>About</Link>
+          <Link to="/help" className={getTabClass('/help')}>Help</Link>
           </nav>
         </div>
 
@@ -102,6 +104,8 @@ function App() {
             <Route path="/complete" element={<Completion />} />
             <Route path="/report" element={<ReportGeneration />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/help" element={<Help />} />
           </Routes>
         </AppLayout>
       </BrowserRouter>
