@@ -15,16 +15,24 @@ import ReportGeneration from './pages/ReportGeneration';
 import Settings from './pages/Settings';
 import About from './pages/About';
 import Help from './pages/Help';
+import NetworkSetup from './pages/NetworkSetup';
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
   const currentPath = location.pathname;
 
+  // Pages that should NOT show the main application layout (header/footer/nav)
+  const isAuthPage = ['/boot', '/login', '/network'].includes(currentPath);
+
+  if (isAuthPage) {
+    return <main className="h-screen w-screen bg-background overflow-hidden">{children}</main>;
+  }
+
   // Simple helper to highlight the active tab
   const getTabClass = (path) => {
     return currentPath === path
-      ? "bg-primary text-white px-4 py-1.5 rounded-lg font-bold transition-all shadow-md shadow-primary/20"
-      : "text-muted hover:text-foreground px-4 py-1.5 rounded-lg transition-all cursor-pointer hover:bg-background/50";
+      ? "bg-primary text-white px-4 py-1.5 rounded-lg font-bold transition shadow-md shadow-primary/20"
+      : "text-muted hover:text-foreground px-4 py-1.5 rounded-lg transition cursor-pointer hover:bg-background/50";
   };
 
   return (
@@ -95,6 +103,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/boot" replace />} />
             <Route path="/boot" element={<BootWelcome />} />
+            <Route path="/network" element={<NetworkSetup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/detect" element={<DriveDetection />} />

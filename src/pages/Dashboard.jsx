@@ -3,7 +3,7 @@ import { Shield, Calendar, Clock, ArrowRight, FileText } from "lucide-react";
 import { Button } from "../components/ui/Button";
 
 const StatCard = ({ label, value, icon: Icon, valueColor = "text-foreground" }) => (
-  <div className="bg-surface border border-border p-6 rounded-xl flex flex-col justify-center transition-all hover:border-primary/50 shadow-sm">
+  <div className="bg-surface border border-border p-6 rounded-xl flex flex-col justify-center transition focus-within:border-primary/50 hover:border-primary/50 shadow-sm">
     <div className="flex items-center gap-2 text-[10px] text-muted mb-3 uppercase tracking-[0.2em] font-extrabold opacity-70">
       {Icon && <Icon size={12} />}
       <span>{label}</span>
@@ -13,7 +13,7 @@ const StatCard = ({ label, value, icon: Icon, valueColor = "text-foreground" }) 
 );
 
 const ComplianceCard = ({ title, subtitle }) => (
-  <div className="border border-border p-5 rounded-xl bg-surface hover:border-primary transition-all duration-300 cursor-pointer group shadow-sm flex flex-col items-start gap-4 active:scale-[0.98]">
+  <div className="border border-border p-5 rounded-xl bg-surface hover:border-primary transition-colors duration-300 cursor-pointer group shadow-sm flex flex-col items-start gap-4 active:scale-[0.98]">
     <div className="p-2 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
       <Shield size={16} className="text-primary/70 group-hover:text-primary transition-colors" />
     </div>

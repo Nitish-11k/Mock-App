@@ -4,6 +4,7 @@ import { HardDrive, AlertOctagon, Clock, ShieldAlert, ArrowLeft } from "lucide-r
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Select } from "../components/ui/Select";
+import { WipeStepper } from "../components/WipeStepper";
 
 const WIPE_METHODS = [
   { value: "nist_800_88", label: "NIST SP 800-88 Rev1 (Clear/Purge)" },
@@ -26,97 +27,119 @@ export default function WipeConfiguration() {
   const [method, setMethod] = useState(WIPE_METHODS[0].value);
   const [verification, setVerification] = useState(VERIFICATION_LEVELS[0].value);
 
-  // If accessed directly without selecting a drive, bounce back to detection
   if (!selectedDrive) {
     return <Navigate to="/detect" replace />;
   }
 
   const handleProceed = () => {
-    navigate('/confirm', { 
-      state: { 
-        selectedDrive, 
-        config: { method, verification } 
-      } 
+    navigate('/confirm', {
+      state: {
+        selectedDrive,
+        config: { method, verification }
+      }
     });
   };
 
   return (
-    <div className="h-full flex flex-col p-8 overflow-y-auto animate-in fade-in duration-300">
-      <header className="flex items-center gap-4 mb-6 shrink-0 border-b border-border pb-4">
-        <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="px-2">
-          <ArrowLeft size={20} />
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">Wipe Configuration</h1>
-          <p className="text-muted text-sm mt-1">Select sanitization standard and verification depth</p>
+    <div className="flex flex-col h-full animate-in fade-in duration-500">
+      <WipeStepper currentStep={2} />
+
+      <div className="max-w-5xl w-full mx-auto flex flex-col flex-1">
+        {/* Header Section */}
+        <div className="flex items-center gap-4 mb-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="w-10 h-10 border border-white/10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+          >
+            <ArrowLeft size={18} />
+          </button>
+          <div>
+            <h1 className="text-2xl font-bold text-white tracking-tight leading-none mb-2">Configuration</h1>
+            <p className="text-gray-400 text-sm">Select sanitization standard and verification depth</p>
+          </div>
         </div>
-      </header>
 
-      <div className="flex-1 min-h-0 flex flex-col gap-6">
-        {/* Selected Drive Summary Card */}
-        <Card className="p-4 bg-surface border-border flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary/10 border border-primary/20 rounded">
-              <HardDrive size={24} className="text-primary" />
-            </div>
-            <div>
-              <p className="text-xs text-muted uppercase tracking-wider font-bold mb-1">Target Drive</p>
-              <h3 className="font-bold text-foreground text-lg">{selectedDrive.model}</h3>
-              <p className="text-sm text-muted font-mono mt-0.5">S/N: {selectedDrive.serial} • {selectedDrive.capacity}</p>
-            </div>
-          </div>
-          <div className="text-right px-4">
-            <p className="text-xs text-muted uppercase tracking-wider font-bold mb-1">Status</p>
-            <span className="text-sm font-bold text-success uppercase tracking-widest bg-success/10 px-2 py-1 rounded">Locked & Ready</span>
-          </div>
-        </Card>
+        {/* Separator Line */}
+        <div className="h-[1px] w-full bg-white/5 mb-8" />
 
-        {/* Configuration Form */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-6">
-            <Select 
-              label="Erasure Standard" 
-              id="method"
-              options={WIPE_METHODS}
-              value={method}
-              onChange={(e) => setMethod(e.target.value)}
-            />
-            <Select 
-              label="Verification Level" 
-              id="verification"
-              options={VERIFICATION_LEVELS}
-              value={verification}
-              onChange={(e) => setVerification(e.target.value)}
-            />
-            
-            <div className="flex items-center gap-3 p-3 bg-background border border-border rounded text-sm text-muted">
-              <Clock size={16} className="text-primary" />
-              <span>Estimated Duration: <strong className="text-foreground font-mono">~ 1h 45m</strong></span>
+        <div className="space-y-6">
+          {/* Target Summary */}
+          <Card className="bg-[#111822] border border-white/10 p-5 flex items-center justify-between">
+            <div className="flex items-center gap-5">
+              <div className="w-12 h-12 bg-emerald-500/10 rounded-lg flex items-center justify-center border border-emerald-500/20">
+                <HardDrive size={24} className="text-emerald-500" />
+              </div>
+              <div>
+                <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">Target Device</p>
+                <div className="flex items-center gap-3 text-white font-bold text-lg italic uppercase tracking-tight">
+                  {selectedDrive.model}
+                  <span className="text-xs font-mono text-gray-500 lowercase opacity-50 not-italic">({selectedDrive.capacity})</span>
+                </div>
+              </div>
             </div>
-          </div>
-
-          {/* Warning Panel */}
-          <Card className="p-5 border-danger bg-danger/5 flex flex-col justify-center">
-            <div className="flex items-center gap-3 mb-3">
-              <AlertOctagon size={24} className="text-danger animate-pulse" />
-              <h3 className="font-bold text-danger text-lg uppercase tracking-wide">Irreversible Action</h3>
-            </div>
-            <p className="text-sm text-foreground/80 leading-relaxed mb-4">
-              Initiating this process will permanently destroy all cryptographic keys, partition tables, and file system structures on the target drive. Data recovery will be impossible after this point.
-            </p>
-            <div className="flex items-start gap-2 text-xs text-danger font-bold uppercase tracking-wider bg-danger/10 p-2 rounded">
-              <ShieldAlert size={14} className="shrink-0 mt-0.5" />
-              <span>Ensure you have selected the correct physical disk before proceeding.</span>
+            <div className="text-right">
+              <span className="text-[10px] items-center gap-2 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-3 py-1.5 rounded-full font-black uppercase tracking-widest flex">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Locked & Ready
+              </span>
             </div>
           </Card>
+
+          <div className="grid grid-cols-2 gap-8 mt-4">
+            {/* Form Section */}
+            <div className="space-y-6">
+              <Select
+                label="Erasure Standard"
+                id="method"
+                options={WIPE_METHODS}
+                value={method}
+                onChange={(e) => setMethod(e.target.value)}
+                className="bg-[#1c2530] border-white/10 text-white font-bold h-12"
+              />
+              <Select
+                label="Verification Level"
+                id="verification"
+                options={VERIFICATION_LEVELS}
+                value={verification}
+                onChange={(e) => setVerification(e.target.value)}
+                className="bg-[#1c2530] border-white/10 text-white font-bold h-12"
+              />
+
+              <div className="flex items-center gap-3 p-4 bg-[#111822] border border-white/5 rounded-lg text-sm transition-all shadow-inner">
+                <Clock size={16} className="text-emerald-500" />
+                <span className="text-gray-400">Estimated Duration: <strong className="text-white font-mono ml-2 uppercase tracking-tighter italic">~ 1h 45m</strong></span>
+              </div>
+            </div>
+
+            {/* Warning Panel */}
+            <Card className="p-6 border-red-500/30 bg-red-500/5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4 text-red-500">
+                  <AlertOctagon size={24} className="animate-pulse" />
+                  <h3 className="font-black text-lg uppercase tracking-widest italic">Irreversible Action</h3>
+                </div>
+                <p className="text-sm text-gray-400 leading-relaxed mb-6 font-medium">
+                  Initiating this process will permanently destroy all cryptographic keys, partition tables, and file system structures. <span className="text-red-400 font-bold underline underline-offset-4 decoration-red-500/20">Data recovery will be impossible after this point.</span>
+                </p>
+              </div>
+              <div className="flex items-start gap-3 text-[10px] text-red-500 font-bold uppercase tracking-[0.15em] bg-red-500/10 p-4 rounded-lg border border-red-500/10 italic">
+                <ShieldAlert size={16} className="shrink-0" />
+                <span>Critical: Verify target identity (S/N: {selectedDrive.serial}) before proceeding.</span>
+              </div>
+            </Card>
+          </div>
+        </div>
+
+        <div className="mt-auto pt-12 flex justify-end">
+          <Button
+            variant="danger"
+            className="px-12 py-6 bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-[0.2em] italic text-xs shadow-xl shadow-red-900/20"
+            onClick={handleProceed}
+          >
+            PROCEED TO CONFIRMATION
+          </Button>
         </div>
       </div>
-
-      <footer className="shrink-0 pt-6 mt-6 border-t border-border flex justify-end">
-        <Button variant="danger" size="lg" className="px-8 font-bold tracking-wider" onClick={handleProceed}>
-          PROCEED TO CONFIRMATION
-        </Button>
-      </footer>
     </div>
   );
 }

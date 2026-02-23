@@ -13,7 +13,7 @@ export default function Settings() {
     <button
       onClick={() => setActiveTab(label)}
       className={cn(
-        "px-6 py-2 text-sm font-bold rounded-full transition-all",
+        "px-6 py-2 text-sm font-bold rounded-full transition",
         activeTab === label
           ? "bg-foreground text-background shadow-lg"
           : "text-muted hover:text-foreground hover:bg-surface/50 border border-transparent"
